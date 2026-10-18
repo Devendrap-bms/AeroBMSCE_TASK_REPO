@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { assetPath } from "@/lib/asset-path";
 
@@ -41,11 +42,56 @@ const partners = [
 	{ name: "Altair", image: "/images/altair.png" },
 ];
 
+const principles = [
+	{
+		number: "01",
+		title: "Learn by doing",
+		description: "Turn engineering theory into practical experience.",
+	},
+	{
+		number: "02",
+		title: "Think collaboratively",
+		description: "Bring different disciplines together to solve problems.",
+	},
+	{
+		number: "03",
+		title: "Engineer with purpose",
+		description: "Build, test, analyse, and improve every iteration.",
+	},
+];
+
+const achievements = [
+	{
+		number: "01",
+		title: "International competition",
+		description:
+			"Participation in SAE International Aero Design and other engineering competitions.",
+	},
+	{
+		number: "02",
+		title: "Aircraft & UAVs",
+		description:
+			"Hands-on work across aircraft design, aeromodelling, and unmanned aerial systems.",
+	},
+	{
+		number: "03",
+		title: "Technical innovation",
+		description:
+			"Student-led experimentation, simulation, prototyping, and engineering analysis.",
+	},
+	{
+		number: "04",
+		title: "A learning culture",
+		description:
+			"Developing engineering skills through collaboration and iterative testing.",
+	},
+];
+
 function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
 	return (
 		<svg
 			aria-hidden="true"
-			className="size-4 shrink-0"
+			className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
 			fill="none"
 			viewBox="0 0 24 24"
 		>
@@ -79,6 +125,30 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 	);
 }
 
+function DetailLink({
+	href,
+	children,
+	light = false,
+}: {
+	href: string;
+	children: React.ReactNode;
+	light?: boolean;
+}) {
+	return (
+		<Link
+			className={`group inline-flex w-fit items-center gap-3 border-b pb-2 font-semibold text-sm transition-colors ${
+				light
+					? "border-[#e0c37f] text-[#e0c37f] hover:text-white"
+					: "border-[#a5223b] text-[#a5223b] hover:text-[#81182d]"
+			}`}
+			href={href}
+		>
+			{children}
+			<ArrowIcon />
+		</Link>
+	);
+}
+
 export default function HomePage() {
 	const reduceMotion = useReducedMotion();
 
@@ -88,25 +158,28 @@ export default function HomePage() {
 	};
 
 	return (
-		<main className="overflow-x-clip bg-[#faf9f6] text-[#19191b]">
+		<main className="overflow-x-clip bg-[#faf9f6] text-[#202126]">
 			{/* HERO */}
 			<section
-				className="relative isolate min-h-[600px] overflow-hidden bg-[#15171c] text-white lg:min-h-[680px]"
+				className="relative isolate overflow-hidden bg-[#15171c] text-white"
 				id="home"
 			>
 				<Image
 					alt=""
 					aria-hidden="true"
 					className="absolute inset-0 -z-20 h-full w-full object-cover object-center opacity-30"
+					fill
+					priority
+					sizes="100vw"
 					src={assetPath("/images/bg.jpg")}
 				/>
 
-				<div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#15171c] via-[#15171c]/90 to-[#15171c]/25" />
-				<div className="absolute inset-y-0 right-0 -z-10 hidden w-[44%] border-white/10 border-l lg:block" />
-				<div className="absolute top-[18%] right-[8%] -z-10 hidden size-[390px] rounded-full border border-white/15 lg:block" />
-				<div className="absolute top-[23%] right-[12%] -z-10 hidden size-[310px] rounded-full border border-[#d5b36a]/40 lg:block" />
+				<div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#15171c] via-[#15171c]/90 to-[#15171c]/35" />
+				<div className="absolute inset-y-0 right-0 -z-10 hidden w-[43%] border-white/10 border-l lg:block" />
+				<div className="absolute top-[16%] right-[8%] -z-10 hidden size-[390px] rounded-full border border-white/15 lg:block" />
+				<div className="absolute top-[22%] right-[12%] -z-10 hidden size-[300px] rounded-full border border-[#d5b36a]/35 lg:block" />
 
-				<div className="mx-auto grid min-h-[600px] max-w-[1440px] items-center gap-12 px-5 py-16 sm:px-8 lg:min-h-[680px] lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-20">
+				<div className="mx-auto grid min-h-[640px] max-w-[1440px] items-center gap-12 px-5 py-20 sm:px-8 lg:min-h-[700px] lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-24">
 					<motion.div
 						animate="visible"
 						className="max-w-3xl"
@@ -126,7 +199,7 @@ export default function HomePage() {
 							variants={entrance}
 						>
 							<span className="h-px w-10 bg-[#e0c37f]" />
-							Engineering beyond boundaries
+							Aerospace engineering at BMSCE
 						</motion.div>
 
 						<motion.h1
@@ -157,14 +230,13 @@ export default function HomePage() {
 							variants={entrance}
 						>
 							<a
-								className="group inline-flex items-center gap-3 bg-[#a5223b] px-5 py-4 font-semibold text-sm text-white transition-colors duration-300 hover:bg-[#bd304a] sm:px-6"
+								className="group inline-flex items-center gap-3 bg-[#a5223b] px-5 py-4 font-semibold text-sm text-white transition-colors duration-300 hover:bg-[#81182d] sm:px-6"
 								href="#what-we-build"
 							>
 								Explore our work
-								<span className="transition-transform duration-300 group-hover:translate-x-1">
-									<ArrowIcon />
-								</span>
+								<ArrowIcon />
 							</a>
+
 							<a
 								className="inline-flex items-center gap-3 border border-white/30 px-5 py-4 font-semibold text-sm text-white transition-colors duration-300 hover:border-[#e0c37f] hover:text-[#e0c37f] sm:px-6"
 								href="#who-we-are"
@@ -206,14 +278,17 @@ export default function HomePage() {
 							<Image
 								alt="Aircraft design model"
 								className="h-[300px] w-full object-contain"
+								height={300}
 								src={assetPath("/images/cad-plane.png")}
+								width={450}
 							/>
 							<div className="mt-3 flex justify-between border-white/15 border-t pt-3 text-white/65 text-xs">
 								<span>Aircraft design</span>
 								<span className="text-[#e0c37f]">01 — 03</span>
 							</div>
 						</div>
-						<div className="absolute bottom-0 left-0 z-10 max-w-[190px] border border-[#d5b36a]/50 bg-[#202127] p-5">
+
+						<div className="absolute bottom-0 left-0 z-10 max-w-[200px] border border-[#d5b36a]/50 bg-[#202127] p-5">
 							<p className="text-[#e0c37f] text-[10px] uppercase tracking-[0.18em]">
 								Our mindset
 							</p>
@@ -239,6 +314,10 @@ export default function HomePage() {
 						<h2 className="max-w-lg font-semibold text-4xl leading-[1.1] tracking-[-0.045em] sm:text-5xl">
 							A shared ambition to push boundaries.
 						</h2>
+						<p className="mt-5 max-w-lg text-[#69666b] leading-7">
+							A student community where engineering curiosity becomes practical
+							experience.
+						</p>
 					</div>
 				</Reveal>
 
@@ -247,37 +326,33 @@ export default function HomePage() {
 						<p className="text-[#555257] text-lg leading-8">
 							AeroBMSCE is the aerospace, aeromodelling, and unmanned systems
 							innovation club of BMS College of Engineering. Established in
-							2012, the team brings together students interested in designing,
+							2012, the club brings together students interested in designing,
 							building, and testing aerospace systems.
 						</p>
+
 						<p className="mt-5 text-[#6b686d] leading-8">
 							From early concepts to engineering analysis, members explore
 							technical ideas, share knowledge, and develop solutions through
 							collaboration and practical engineering.
 						</p>
 
-						<a
-							className="group mt-8 inline-flex items-center gap-3 border-[#a5223b] border-b pb-2 font-semibold text-[#a5223b] text-sm"
-							href="#what-we-build"
-						>
-							Discover what we do
-							<span className="transition-transform duration-300 group-hover:translate-x-1">
-								<ArrowIcon />
-							</span>
-						</a>
+						<div className="mt-8">
+							<DetailLink href="/who-we-are/">Discover who we are</DetailLink>
+						</div>
 
-						<div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
-							{[
-								["01", "Learn by doing"],
-								["02", "Think collaboratively"],
-								["03", "Engineer with purpose"],
-							].map(([number, label], index) => (
-								<Reveal delay={index * 0.08} key={number}>
+						<div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3">
+							{principles.map((principle, index) => (
+								<Reveal delay={index * 0.08} key={principle.number}>
 									<div className="h-full border-black/15 border-t pt-4">
 										<span className="font-bold text-[#a5223b] text-xs tracking-widest">
-											{number}
+											{principle.number}
 										</span>
-										<p className="mt-3 font-semibold text-sm">{label}</p>
+										<h3 className="mt-3 font-semibold text-sm">
+											{principle.title}
+										</h3>
+										<p className="mt-2 text-[#77737a] text-sm leading-6">
+											{principle.description}
+										</p>
 									</div>
 								</Reveal>
 							))}
@@ -315,8 +390,11 @@ export default function HomePage() {
 										<Image
 											alt={project.title}
 											className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+											height={280}
 											loading="lazy"
+											sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 											src={assetPath(project.image)}
+											width={420}
 										/>
 										<span className="absolute top-4 left-4 bg-[#a5223b] px-3 py-2 font-bold text-[10px] text-white tracking-[0.15em]">
 											{project.tag}
@@ -333,19 +411,23 @@ export default function HomePage() {
 										<p className="mt-3 min-h-[84px] text-[#69666b] text-sm leading-7">
 											{project.description}
 										</p>
-										<a
+										<Link
 											className="group/link mt-5 inline-flex items-center gap-3 font-semibold text-[#a5223b] text-sm"
-											href="#contact"
+											href="/what-we-build/"
 										>
-											Explore possibilities
-											<span className="transition-transform duration-300 group-hover/link:translate-x-1">
-												<ArrowIcon />
-											</span>
-										</a>
+											Explore this area
+											<ArrowIcon />
+										</Link>
 									</div>
 								</article>
 							</Reveal>
 						))}
+					</div>
+
+					<div className="mt-9 flex justify-end">
+						<DetailLink href="/what-we-build/">
+							Discover all our work
+						</DetailLink>
 					</div>
 				</div>
 			</section>
@@ -367,46 +449,24 @@ export default function HomePage() {
 								development, and drone racing events. Their journey includes
 								national and international competitions.
 							</p>
-							<a
-								className="group mt-8 inline-flex items-center gap-3 border-[#e0c37f] border-b pb-2 font-semibold text-[#e0c37f] text-sm"
-								href="#contact"
-							>
-								Build what comes next
-								<span className="transition-transform duration-300 group-hover:translate-x-1">
-									<ArrowIcon />
-								</span>
-							</a>
+							<div className="mt-8">
+								<DetailLink href="/achievements/" light>
+									Explore our achievements
+								</DetailLink>
+							</div>
 						</div>
 					</Reveal>
 
 					<div className="grid gap-7 sm:grid-cols-2">
-						{[
-							{
-								title: "Established 2012",
-								description:
-									"A student aerospace team at BMS College of Engineering.",
-							},
-							{
-								title: "Global competition",
-								description:
-									"Participation in SAE International Aero Design competitions.",
-							},
-							{
-								title: "Aircraft & UAVs",
-								description:
-									"Work across aeromodelling, aircraft design, and unmanned aerial systems.",
-							},
-							{
-								title: "Student-led",
-								description:
-									"Learning through design, fabrication, analysis, and testing.",
-							},
-						].map((item, index) => (
-							<Reveal delay={index * 0.08} key={item.title}>
+						{achievements.map((item, index) => (
+							<Reveal delay={index * 0.08} key={item.number}>
 								<div className="h-full border-white/20 border-t pt-5">
-									<p className="font-semibold text-[#e0c37f] text-xl sm:text-2xl">
-										{item.title}
+									<p className="font-bold text-[#e0c37f] text-xs tracking-widest">
+										{item.number}
 									</p>
+									<h3 className="mt-3 font-semibold text-xl tracking-tight sm:text-2xl">
+										{item.title}
+									</h3>
 									<p className="mt-3 text-sm text-white/70 leading-6">
 										{item.description}
 									</p>
@@ -417,7 +477,7 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			{/* INDUSTRY CONNECTIONS */}
+			{/* PARTNERS */}
 			<section className="px-5 py-20 sm:px-8 lg:px-14 lg:py-24" id="partners">
 				<div className="mx-auto max-w-[1312px]">
 					<Reveal>
@@ -442,25 +502,36 @@ export default function HomePage() {
 									<Image
 										alt={partner.name}
 										className="max-h-16 max-w-full object-contain"
+										height={80}
 										loading="lazy"
+										sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 16vw"
 										src={assetPath(partner.image)}
+										width={150}
 									/>
 								</div>
 							</Reveal>
 						))}
 					</div>
+
 					<p className="mt-4 text-center text-[#77737a] text-xs leading-5">
 						Logos are displayed using the supplied website assets. Their
 						presence does not independently establish a formal partnership.
 					</p>
+
+					<div className="mt-8 flex justify-center">
+						<DetailLink href="/partners/">Explore partnerships</DetailLink>
+					</div>
 				</div>
 			</section>
 
-			{/* CONTACT CTA */}
+			{/* CONTACT */}
 			<section className="px-5 pb-20 sm:px-8 lg:px-14" id="contact">
 				<Reveal>
-					<div className="mx-auto flex max-w-[1312px] flex-col justify-between gap-8 bg-[#a5223b] px-7 py-10 text-white sm:px-12 lg:flex-row lg:items-center lg:py-14">
-						<div>
+					<div className="relative mx-auto flex max-w-[1312px] flex-col justify-between gap-8 overflow-hidden bg-[#a5223b] px-7 py-10 text-white sm:px-12 lg:flex-row lg:items-center lg:py-14">
+						<div className="pointer-events-none absolute -top-24 -right-16 size-64 rounded-full border border-white/15" />
+						<div className="pointer-events-none absolute -top-12 -right-5 size-44 rounded-full border border-white/15" />
+
+						<div className="relative">
 							<p className="font-bold text-[11px] text-white/80 uppercase tracking-[0.22em] sm:text-xs">
 								Have an idea?
 							</p>
@@ -472,15 +543,23 @@ export default function HomePage() {
 								more about AeroBMSCE?
 							</p>
 						</div>
-						<a
-							className="group inline-flex w-fit shrink-0 items-center gap-3 border border-white/70 px-6 py-4 font-semibold text-sm transition-colors duration-300 hover:bg-white hover:text-[#a5223b]"
-							href="mailto:aerobmsce@bmsce.ac.in"
-						>
-							Contact AeroBMSCE
-							<span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+
+						<div className="relative flex shrink-0 flex-wrap gap-3">
+							<Link
+								className="group inline-flex items-center gap-3 border border-white/70 px-5 py-4 font-semibold text-sm text-white transition-colors duration-300 hover:bg-white hover:text-[#a5223b]"
+								href="/contact/"
+							>
+								Contact page
 								<ArrowIcon diagonal />
-							</span>
-						</a>
+							</Link>
+							<a
+								className="inline-flex items-center gap-3 bg-white px-5 py-4 font-semibold text-[#a5223b] text-sm transition-colors duration-300 hover:bg-[#f0eee9]"
+								href="mailto:aerobmsce@bmsce.ac.in"
+							>
+								Send an email
+								<ArrowIcon diagonal />
+							</a>
+						</div>
 					</div>
 				</Reveal>
 			</section>

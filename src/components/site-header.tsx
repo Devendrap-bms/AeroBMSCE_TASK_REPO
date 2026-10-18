@@ -2,22 +2,67 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { assetPath } from "@/lib/asset-path";
 
 const navigation = [
-	{ label: "Home", href: "/#home", id: "home" },
-	{ label: "Who We Are", href: "/#who-we-are", id: "who-we-are" },
-	{ label: "What We Build", href: "/#what-we-build", id: "what-we-build" },
-	{ label: "Achievements", href: "/#achievements", id: "achievements" },
-	{ label: "Partners", href: "/#partners", id: "partners" },
-	{ label: "Contact", href: "/#contact", id: "contact" },
+	{ label: "Home", href: "/#home", id: "home", path: "/" },
+	{
+		label: "Who We Are",
+		href: "/#who-we-are",
+		id: "who-we-are",
+		path: "/who-we-are",
+	},
+	{
+		label: "What We Build",
+		href: "/#what-we-build",
+		id: "what-we-build",
+		path: "/what-we-build",
+	},
+	{
+		label: "Achievements",
+		href: "/#achievements",
+		id: "achievements",
+		path: "/achievements",
+	},
+	{
+		label: "Partners",
+		href: "/#partners",
+		id: "partners",
+		path: "/partners",
+	},
+	{
+		label: "Contact",
+		href: "/#contact",
+		id: "contact",
+		path: "/contact",
+	},
 ];
 
+function normalizePath(path: string) {
+	const withoutBasePath = path.replace(/^\/AeroBMSCE_TASK_REPO(?=\/|$)/, "");
+
+	return withoutBasePath.replace(/\/+$/, "") || "/";
+}
+
 export function SiteHeader() {
+	const rawPathname = usePathname();
+	const pathname = normalizePath(rawPathname ?? "/");
+	const isHomePage = pathname === "/";
+
 	const [activeSection, setActiveSection] = useState("home");
 
 	useEffect(() => {
+		// Detail pages: select the navigation item matching the current route.
+		if (!isHomePage) {
+			const currentPage = navigation.find((item) => item.path === pathname);
+
+			setActiveSection(currentPage?.id ?? "");
+			return;
+		}
+
+		// Homepage: update the underline as the user scrolls.
 		const sections = navigation
 			.map((item) => document.getElementById(item.id))
 			.filter((section): section is HTMLElement => section !== null);
@@ -46,6 +91,7 @@ export function SiteHeader() {
 
 		const updateFromHash = () => {
 			const id = window.location.hash.slice(1);
+
 			if (navigation.some((item) => item.id === id)) {
 				setActiveSection(id);
 			}
@@ -58,7 +104,7 @@ export function SiteHeader() {
 			observer.disconnect();
 			window.removeEventListener("hashchange", updateFromHash);
 		};
-	}, []);
+	}, [isHomePage, pathname]);
 
 	function renderLink(item: (typeof navigation)[number], mobile = false) {
 		const active = activeSection === item.id;
@@ -67,7 +113,9 @@ export function SiteHeader() {
 			<Link
 				aria-current={active ? "location" : undefined}
 				className={`relative shrink-0 whitespace-nowrap py-2 font-semibold transition-colors duration-200 ${
-					mobile ? "text-xs" : "text-xs 2xl:text-[13px]"
+					mobile
+						? "w-full text-center text-[11px] sm:text-xs"
+						: "text-xs 2xl:text-[13px]"
 				} ${active ? "text-[#a5223b]" : "text-[#4b484a] hover:text-[#a5223b]"}`}
 				href={item.href}
 				key={item.id}
@@ -115,7 +163,7 @@ export function SiteHeader() {
 
 				<Link
 					className="group inline-flex shrink-0 items-center gap-2 bg-[#a5223b] px-3 py-3 font-semibold text-white text-xs transition-colors duration-300 hover:bg-[#81182d] sm:px-5"
-					href="/#contact"
+					href="/contact/"
 					onClick={() => setActiveSection("contact")}
 				>
 					<span className="hidden sm:inline">Collaborate with us</span>
@@ -139,7 +187,7 @@ export function SiteHeader() {
 
 			<nav
 				aria-label="Mobile navigation"
-				className="flex gap-6 overflow-x-auto border-black/5 border-t px-5 py-3 sm:px-8 xl:hidden"
+				className="grid grid-cols-3 gap-x-4 gap-y-2 border-black/5 border-t px-4 py-3 sm:px-8 xl:hidden"
 			>
 				{navigation.map((item) => renderLink(item, true))}
 			</nav>
