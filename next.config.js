@@ -1,18 +1,16 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
+// Must match your GitHub repository name (the site lives at <user>.github.io/<REPO_NAME>/).
+const REPO_NAME = "AeroBMSCE_TASK_REPO";
 
-import "./src/env.js";
+const basePath = process.env.NODE_ENV === "production" ? `/${REPO_NAME}` : "";
 
 /** @type {import("next").NextConfig} */
 const config = {
+	basePath,
+	// Single source of truth: src/lib/asset-path.ts reads this value.
+	env: { NEXT_PUBLIC_BASE_PATH: basePath },
+	images: { unoptimized: true },
 	output: "export",
 	trailingSlash: true,
-	basePath: process.env.NODE_ENV === "production" ? "/AeroBMSCE_TASK_REPO" : "",
-	images: {
-		unoptimized: true,
-	},
 };
 
 export default config;
